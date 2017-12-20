@@ -1,0 +1,106 @@
+body {
+	font-family: Roboto, sans-serif;
+	background-color: #1f232b;
+	color: #9baec8;
+}
+.center {
+	margin: auto;
+	max-width: 900px;
+	text-align: center;
+}
+
+#join-mastodon {
+	float: left;
+	position: relative;
+	left: 16px;
+	top: 13px;
+}
+
+#mastodon-logo {
+	height: 32px;
+}
+
+#topic-text {
+	font-size: 16pt;
+}
+
+#topic-selector {
+	text-align-last:center;
+	background-color: #9baec8;
+	color: #1f232b;
+	font-size: 14pt;
+	border-radius: 7px;
+}
+
+.instance-url {
+	text-decoration: none;
+	color: #9baec8;
+}
+
+.instance-url:hover {
+	color: #6b7ea8;
+}
+
+table {
+	border-radius: 4px;
+	background-color: #2f333b;
+}
+
+table, th, td {
+	margin: auto;
+	border: 1px solid #9baec8;
+	text-align: left;
+}
+
+th, td {
+	padding: 5px;
+}
+
+.name {
+	width: 250px;
+}
+
+.users {
+	width: 100px;
+}
+
+.topic {
+	width: 250px;
+}
+
+.note {
+	width: 300px;
+}
+
+li {
+	background-color: #2f333b;
+	border: 2px solid #9baec8;
+	border-radius: 7px;
+	padding: 3px;
+	margin: 6px;
+}
+
+#instanceList {
+	list-style-type: none;
+	text-align: left;
+	padding: 0px;
+}
+
+.name2 {
+	font-size: 16pt;
+	padding: 5px;
+}
+
+.users2 {
+	float: right;
+	padding: 5px;
+}
+
+.topic2 {
+	font-size: 12pt;
+	padding: 5px;
+}
+
+.note2 {
+	padding: 5px;
+}

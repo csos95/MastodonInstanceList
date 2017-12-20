@@ -1,0 +1,54 @@
+<!doctype HTML>
+<html>
+
+<head>
+	<title>Mastodon Instance List</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+	<div class="center">
+		<div id="instances">
+			<a id="join-mastodon" href="https://joinmastodon.org">
+				<img id="mastodon-logo" alt="mastodon logo" src="img/mastodon.svg">
+			</a>
+			<h1>Mastodon Instance List</h1>
+			<span id="topic-text">Topic&nbsp;&nbsp;</span>
+			<select id="topic-selector" v-model="selectedTopic">
+				<option v-for="topic in topics" v-bind:value="topic">{{ topic }}</option>
+			</select>
+			<br>
+			<br>
+			<table id="instanceTable">
+				<tr>
+					<th>Name</th>
+					<th>Users</th>
+					<th>Topic</th>
+					<th>Note</th>
+				</tr>
+				<tr v-for="instance in currentInstances">
+					<td class="name"><a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a></td>
+					<td class="users">{{ instance.stats.user_count }}</td>
+					<td class="topic">{{ instance.topic }}</td>
+					<td class="note">{{ instance.note }}</td>
+				</tr>
+			</table>
+			<ul id="instanceList">
+				<li v-for="instance in currentInstances">
+					<span class="name2"><a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a> |</span><span class="topic2">{{ instance.topic }}</span>
+					<div class="users2">{{ instance.stats.user_count }} users</div>
+					<div class="note2">{{ instance.note }}</div>
+					<br>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="js/vue.js"></script>
+	<script src="js/api.js"></script>
+	<script src="js/script.js"></script>
+
+</body>
+
+</html>
