@@ -28,7 +28,9 @@
 					<th>Note</th>
 				</tr>
 				<tr v-for="instance in currentInstances">
-					<td class="name"><a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a></td>
+					<td class="name">
+						<a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a>
+					</td>
 					<td class="users">{{ instance.stats.user_count }}</td>
 					<td class="topic">{{ instance.topic }}</td>
 					<td class="note">{{ instance.note }}</td>
@@ -36,10 +38,14 @@
 			</table>
 			<ul id="instanceList">
 				<li v-for="instance in currentInstances">
-					<span class="name2"><a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a> |</span><span class="topic2">{{ instance.topic }}</span>
-					<div class="users2">{{ instance.stats.user_count }} users</div>
+					<img class="thumb2" v-bind:src="instance.thumbnail">
+					<span class="name2">
+						<a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a> |</span>
+					<span class="topic2">{{ instance.topic }}</span>
+					<div class="statuses2">{{ instance.stats.status_count }} statuses</div>
+					<div class="users2">{{ instance.stats.user_count }} users&nbsp;&nbsp;|</div>
 					<div class="note2">{{ instance.note }}</div>
-					<br>
+					<div class="lastPulled2">Last pulled {{ lastPulled(instance) }} minutes ago</div>
 				</li>
 			</ul>
 		</div>
