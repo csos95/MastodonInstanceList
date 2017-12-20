@@ -36,9 +36,7 @@ let instances = new Vue({
 		lastPulled(instance) {
 			let now = new Date();
 			let last = new Date(instance.stats.datetime);
-			console.log(now, last);
 			let diff = parseInt(now - last);
-			console.log(diff);
 			let minutes = Math.trunc(diff / 1000 / 60);
 			return minutes;
 		}

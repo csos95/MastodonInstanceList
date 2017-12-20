@@ -10,9 +10,9 @@
 
 	<div class="center">
 		<div id="instances">
-			<a id="join-mastodon" href="https://joinmastodon.org">
+			<!-- <a id="join-mastodon" href="https://joinmastodon.org">
 				<img id="mastodon-logo" alt="mastodon logo" src="img/mastodon.svg">
-			</a>
+			</a> -->
 			<h1>Mastodon Instance List</h1>
 			<span id="topic-text">Topic&nbsp;&nbsp;</span>
 			<select id="topic-selector" v-model="selectedTopic">
@@ -20,7 +20,7 @@
 			</select>
 			<br>
 			<br>
-			<table id="instanceTable">
+			<!-- <table id="instanceTable">
 				<tr>
 					<th>Name</th>
 					<th>Users</th>
@@ -35,8 +35,17 @@
 					<td class="topic">{{ instance.topic }}</td>
 					<td class="note">{{ instance.note }}</td>
 				</tr>
-			</table>
+			</table> -->
 			<ul id="instanceList">
+				<li>
+					<span class="name2">
+						<a class="instance-url" href="https://example.com">Title</a> |</span>
+					<span class="topic2">Topic</span>
+					<div class="statuses2">X statuses</div>
+					<div class="users2">X users&nbsp;&nbsp;|</div>
+					<div class="note2">Note</div>
+					<div class="lastPulled2">Last pulled X minutes ago</div>
+				</li>
 				<li v-for="instance in currentInstances">
 					<img class="thumb2" v-bind:src="instance.thumbnail">
 					<span class="name2">
