@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -50,15 +51,17 @@ func (p *Processor) UpdateInstances() error {
 	for _, instance := range instances {
 		err = updateInstance(&instance)
 		if err != nil {
-			return errors.Wrap(err, "[Processor]: failed to update instances")
+			log.Println(errors.Wrap(err, "[Processor]: failed to update instance"))
+			continue
 		}
 		err = p.DB.UpdateInstance(instance)
 		if err != nil {
-			return errors.Wrap(err, "[Processor]: failed to update instances")
+			log.Println(errors.Wrap(err, "[Processor]: failed to update instance"))
+			continue
 		}
 		err = p.DB.UpdateStats(instance)
 		if err != nil {
-			return errors.Wrap(err, "[Processor]: failed to update instances")
+			log.Println(errors.Wrap(err, "[Processor]: failed to update instances"))
 		}
 	}
 	return nil
