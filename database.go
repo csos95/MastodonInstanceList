@@ -72,10 +72,10 @@ func (db *Database) ReadInstances() ([]Instance, error) {
 		if err != nil {
 			return nil, errors.Wrap(err, "[Database]: failed to scan instances")
 		}
-		instance.Stats, err = db.ReadInstanceStats(instance)
-		if err != nil {
-			return nil, errors.Wrap(err, "[Database]: failed to read instance stats")
-		}
+		instance.Stats, _ = db.ReadInstanceStats(instance)
+		// if err != nil {
+		// 	log.Println(errors.Wrap(err, "[Database]: failed to read instance stats"))
+		// }
 		instances = append(instances, instance)
 	}
 

@@ -29,18 +29,31 @@ func (p *Processor) ReadInstances() ([]Instance, error) {
 	return instances, nil
 }
 
-func updateInstance(instance *Instance) error {
+func updateInstance(instance Instance) (Instance, error) {
 	response, err := http.Get(fmt.Sprintf("https://%s/api/v1/instance", instance.URI))
 	if err != nil {
-		return errors.Wrap(err, "failed to get instance stats api")
+		return instance, errors.Wrap(err, "failed to get instance stats api")
 	}
 
 	decoder := json.NewDecoder(response.Body)
 	err = decoder.Decode(&instance)
 	if err != nil {
-		return errors.Wrap(err, "failed to decode json")
+		return instance, errors.Wrap(err, "failed to decode json")
 	}
-	return nil
+	return instance, nil
+}
+
+func compareInstances(a, b Instance) (bool, bool) {
+	instanceChanged, statsChanged := false, false
+	if a.Title != b.Title || a.Description != b.Description || a.Email != b.Email ||
+		a.Version != b.Version || a.Thumbnail != b.Thumbnail {
+		instanceChanged = true
+	}
+	if a.Stats.UserCount != b.Stats.UserCount || a.Stats.StatusCount != b.Stats.StatusCount ||
+		a.Stats.DomainCount != b.Stats.DomainCount {
+		statsChanged = true
+	}
+	return instanceChanged, statsChanged
 }
 
 func (p *Processor) UpdateInstances() error {
@@ -49,19 +62,26 @@ func (p *Processor) UpdateInstances() error {
 		return errors.Wrap(err, "[Processor]: failed to update instances")
 	}
 	for _, instance := range instances {
-		err = updateInstance(&instance)
+		updatedInstance, err := updateInstance(instance)
 		if err != nil {
 			log.Println(errors.Wrap(err, "[Processor]: failed to update instance"))
 			continue
 		}
-		err = p.DB.UpdateInstance(instance)
-		if err != nil {
-			log.Println(errors.Wrap(err, "[Processor]: failed to update instance"))
-			continue
+
+		instanceChanged, statsChanged := compareInstances(instance, updatedInstance)
+
+		if instanceChanged {
+			err = p.DB.UpdateInstance(instance)
+			if err != nil {
+				log.Println(errors.Wrap(err, "[Processor]: failed to update instance"))
+				continue
+			}
 		}
-		err = p.DB.UpdateStats(instance)
-		if err != nil {
-			log.Println(errors.Wrap(err, "[Processor]: failed to update instances"))
+		if statsChanged {
+			err = p.DB.UpdateStats(instance)
+			if err != nil {
+				log.Println(errors.Wrap(err, "[Processor]: failed to update instances"))
+			}
 		}
 	}
 	return nil

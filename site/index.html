@@ -14,6 +14,7 @@
 				<img id="mastodon-logo" alt="mastodon logo" src="img/mastodon.svg">
 			</a> -->
 			<h1>Mastodon Instance List</h1>
+			<h5>Instances are queried every 5 minutes</h5>
 			<span id="topic-text">Topic&nbsp;&nbsp;</span>
 			<select id="topic-selector" v-model="selectedTopic">
 				<option v-for="topic in topics" v-bind:value="topic">{{ topic }}</option>
@@ -44,17 +45,17 @@
 					<div class="statuses2">X statuses</div>
 					<div class="users2">X users&nbsp;&nbsp;|</div>
 					<div class="note2">Note</div>
-					<div class="lastPulled2">Last pulled X minutes ago</div>
+					<div class="lastPulled2">Last activity X minutes ago</div>
 				</li>
 				<li v-for="instance in currentInstances">
-					<img class="thumb2" v-bind:src="instance.thumbnail">
+					<!-- <img class="thumb2" v-bind:src="instance.thumbnail"> -->
 					<span class="name2">
 						<a class="instance-url" v-bind:href="instanceurl(instance)">{{ instance.title }}</a> |</span>
 					<span class="topic2">{{ instance.topic }}</span>
 					<div class="statuses2">{{ instance.stats.status_count }} statuses</div>
 					<div class="users2">{{ instance.stats.user_count }} users&nbsp;&nbsp;|</div>
 					<div class="note2">{{ instance.note }}</div>
-					<div class="lastPulled2">Last pulled {{ lastPulled(instance) }} minutes ago</div>
+					<div class="lastActivity2">Last activity {{ lastActivity(instance) }}</div>
 				</li>
 			</ul>
 		</div>

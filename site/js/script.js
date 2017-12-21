@@ -33,12 +33,27 @@ let instances = new Vue({
 		instanceurl(instance) {
 			return "http://" + instance.uri;
 		},
-		lastPulled(instance) {
+		lastActivity(instance) {
+			if (instance.stats.datetime === '0001-01-01T00:00:00Z') {
+				return 'never';
+			}
 			let now = new Date();
 			let last = new Date(instance.stats.datetime);
 			let diff = parseInt(now - last);
-			let minutes = Math.trunc(diff / 1000 / 60);
-			return minutes;
+			let seconds = diff / 1000;
+			let minutes = seconds / 60;
+			let hours = minutes / 60;
+			let days = hours / 24;
+			if (days > 1) {
+				return Math.trunc(days) + ' days ago';
+			}
+			if (hours > 1) {
+				return Math.trunc(hours) + ' hours ago';
+			}
+			if (minutes > 1) {
+				return Math.trunc(minutes) + ' minutes ago';
+			}
+			return Math.trunc(seconds) + ' seconds ago';
 		}
 	},
 	created: function () {

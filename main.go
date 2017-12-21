@@ -37,25 +37,23 @@ func preload(config Config) error {
 	}
 
 	// load some starter instances
-	// instanceURIs := []string{
-	// 	"a.weirder.earth",
-	// 	"bookwitty.social",
-	// 	"tootcn.com",
-	// 	"i.write.codethat.sucks",
-	// 	"mamot.fr",
-	// 	"mastodon.tetaneutral.net",
-	// 	"mstdn.fr",
-	// 	"social.alex73630.xyz",
-	// 	"social.infranix.eu",
-	// 	"social.taker.fr",
-	// }
-	// instanceTopics := []string{"be weird", "book lovers", "Chinese", "Code", "FL", "Fr/GP", "Fr/GP", "Fr/GP", "Fr/GP", "Fr/GP"}
-	// instanceNotes := []string{"silence instances", "Fr/Eng", "", "", "", "", "", "", "Fr/Eng/fet w/pawoo", ""}
-	// instanceRegistrations := []string{"open", "open", "open", "open", "open", "open", "open", "open", "open", "open"}
-	instanceURIs := []string{"mastodon.social", "toot.cafe"}
-	instanceTopics := []string{"general", "Code"}
-	instanceNotes := []string{"the largest mastodon instance", ""}
-	instanceRegistrations := []string{"open", "open"}
+	instanceURIs := []string{
+		"a.weirder.earth",
+		"bookwitty.social",
+		"tootcn.com",
+		"i.write.codethat.sucks",
+		"mamot.fr",
+		"mastodon.tetaneutral.net",
+		"mstdn.fr",
+		"social.alex73630.xyz",
+		"social.infranix.eu",
+		"social.taker.fr",
+		"mastodon.social",
+		"toot.cafe",
+	}
+	instanceTopics := []string{"be weird", "book lovers", "Chinese", "Code", "FL", "Fr/GP", "Fr/GP", "Fr/GP", "Fr/GP", "Fr/GP", "general", "Code"}
+	instanceNotes := []string{"silence instances", "Fr/Eng", "", "", "", "", "", "", "Fr/Eng/fet w/pawoo", "", "the largest mastodon instance", ""}
+	instanceRegistrations := []string{"open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "open", "open"}
 	for i, uri := range instanceURIs {
 		instance, err := getInstance(uri)
 		if err != nil {
@@ -69,9 +67,11 @@ func preload(config Config) error {
 			log.Println(err)
 		}
 
-		err = db.UpdateStats(instance)
-		if err != nil {
-			log.Println(err)
+		if instance.Stats.UserCount != 0 || instance.Stats.StatusCount != 0 || instance.Stats.DomainCount != 0 {
+			err = db.UpdateStats(instance)
+			if err != nil {
+				log.Println(err)
+			}
 		}
 	}
 	db.Close()
