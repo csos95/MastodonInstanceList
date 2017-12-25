@@ -82,12 +82,42 @@ func (db *Database) ReadInstances() ([]Instance, error) {
 	return instances, nil
 }
 
+func (db *Database) ReadInstance(id int) (Instance, error) {
+	var instance Instance
+	row := db.QueryRow(readInstanceSQL, id)
+	err := row.Scan(&instance.ID, &instance.Title, &instance.URI, &instance.Description,
+		&instance.Email, &instance.Version, &instance.Thumbnail, &instance.Topic, &instance.Note, &instance.Registration)
+	if err != nil {
+		return instance, errors.Wrap(err, "[Database]: failed to scan instance")
+	}
+	return instance, nil
+}
+
 // ReadInstanceStats from the database
 func (db *Database) ReadInstanceStats(instance Instance) (Stats, error) {
 	var stats Stats
 	row := db.QueryRow(readInstanceStatsSQL, instance.ID)
 	err := row.Scan(&stats.DateTime, &stats.UserCount, &stats.StatusCount, &stats.DomainCount)
 	return stats, errors.Wrap(err, "[Database]: failed to scan instance stats")
+}
+
+func (db *Database) ReadInstanceStatsHistory(instance Instance) ([]Stats, error) {
+	statsHistory := make([]Stats, 0)
+	rows, err := db.Query(readInstanceStatsHistory, instance.ID)
+	if err != nil {
+		return nil, errors.Wrap(err, "[Database]: failed to read instance stats history")
+	}
+
+	for rows.Next() {
+		var stats Stats
+		err = rows.Scan(&stats.DateTime, &stats.UserCount, &stats.StatusCount, &stats.DomainCount)
+		if err != nil {
+			return nil, errors.Wrap(err, "[Database]: failed to scan instance stats history")
+		}
+		statsHistory = append(statsHistory, stats)
+	}
+
+	return statsHistory, nil
 }
 
 // UPDATE

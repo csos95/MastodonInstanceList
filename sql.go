@@ -31,8 +31,10 @@ var (
 	createInstanceSQL = `insert into Instance values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
 	// READ
-	readInstancesSQL     = `select * from Instance;`
-	readInstanceStatsSQL = `select datetime, users, statuses, connections from Stats where instance_id = ? order by datetime desc limit 1`
+	readInstancesSQL         = `select * from Instance;`
+	readInstanceSQL          = `select * from Instance where instance_id = ?`
+	readInstanceStatsSQL     = `select datetime, users, statuses, connections from Stats where instance_id = ? order by datetime desc limit 1`
+	readInstanceStatsHistory = `select datetime, users, statuses, connections from Stats where instance_id = ? order by datetime`
 
 	// UPDATE
 	updateInstanceSQL = `update Instance set title = ?, description = ?, email = ?, version = ?, thumbnail = ?, topic = ?, note = ?, registration = ? where instance_id = ?`

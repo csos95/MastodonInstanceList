@@ -29,6 +29,19 @@ func (p *Processor) ReadInstances() ([]Instance, error) {
 	return instances, nil
 }
 
+func (p *Processor) ReadInstanceStatsHistory(id int) ([]Stats, error) {
+	instance, err := p.DB.ReadInstance(id)
+	if err != nil {
+		return nil, errors.Wrap(err, "[Processor]: failed to read instance")
+	}
+	statsHistory, err := p.DB.ReadInstanceStatsHistory(instance)
+	if err != nil {
+		return nil, errors.Wrap(err, "[Processor]: failed to read instance stats history")
+	}
+
+	return statsHistory, nil
+}
+
 func updateInstance(instance Instance) (Instance, error) {
 	response, err := http.Get(fmt.Sprintf("https://%s/api/v1/instance", instance.URI))
 	if err != nil {
@@ -71,14 +84,14 @@ func (p *Processor) UpdateInstances() error {
 		instanceChanged, statsChanged := compareInstances(instance, updatedInstance)
 
 		if instanceChanged {
-			err = p.DB.UpdateInstance(instance)
+			err = p.DB.UpdateInstance(updatedInstance)
 			if err != nil {
 				log.Println(errors.Wrap(err, "[Processor]: failed to update instance"))
 				continue
 			}
 		}
 		if statsChanged {
-			err = p.DB.UpdateStats(instance)
+			err = p.DB.UpdateStats(updatedInstance)
 			if err != nil {
 				log.Println(errors.Wrap(err, "[Processor]: failed to update instances"))
 			}

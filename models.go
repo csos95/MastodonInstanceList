@@ -26,9 +26,10 @@ type Instance struct {
 }
 
 type Payload struct {
-	Status    string     `json:"status"`
-	Instances []Instance `json:"instances,omitempty"`
-	Instance  *Instance  `json:"instance,omitempty"`
+	Status       string     `json:"status"`
+	Instances    []Instance `json:"instances,omitempty"`
+	Instance     *Instance  `json:"instance,omitempty"`
+	StatsHistory []Stats    `json:"stats_history,omitempty"`
 }
 
 // func (i *Instance) String() string {

@@ -26,6 +26,7 @@ func (s *Server) Run() error {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/api/instances", makeHandler(apiReadInstances, s.Processor)).Methods("GET")
+	r.HandleFunc("/api/instance/history", makeHandler(apiReadInstanceStatsHistory, s.Processor)).Methods("GET")
 
 	// SITE
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./site/")))
